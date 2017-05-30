@@ -1,4 +1,5 @@
 from html.parser import HTMLParser
+import sys
 
 class Node(object):
     def __init__(self):
@@ -38,7 +39,7 @@ parser = MyHTMLParser()
 import requests
 from bs4 import BeautifulSoup
 
-url='https://www.pricedekho.com/laptops/laptops-price-list.html'
+url=sys.argv[1]
 r=requests.get(url)
 soup = BeautifulSoup(r.content, 'html.parser')
 parser.feed(str(soup).replace('\n',''))

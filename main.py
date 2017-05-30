@@ -40,8 +40,7 @@ parser = MyHTMLParser()
 import requests
 from bs4 import BeautifulSoup
 
-# url=sys.argv[1]
-url='http://www.technmech.in/pumps-lights-generators.html'
+url=sys.argv[1]
 r=requests.get(url)
 soup = BeautifulSoup(r.content, 'html.parser')
 parser.feed(str(soup).replace('\n',''))
@@ -78,7 +77,7 @@ import numpy as np
 final_table = list()
 
 for node in sortlist:
-    if(node.tagname=='meta' || node.tagname=='head'):
+    if(node.tagname=='meta' or node.tagname=='head'):
         continue
     for t in node.childlist:
         getkeyval(t,'')

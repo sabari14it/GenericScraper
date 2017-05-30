@@ -21,6 +21,7 @@ class MyHTMLParser(HTMLParser):
         node=Node()
         node.tagname=tag
         node.classname=attrs
+
         node.parent=self.currentptr
         self.currentptr.childlist.append(node)
         if tag in self.currentptr.childcount:
@@ -39,13 +40,16 @@ parser = MyHTMLParser()
 import requests
 from bs4 import BeautifulSoup
 
-url=sys.argv[1]
+# url=sys.argv[1]
+url='http://www.technmech.in/pumps-lights-generators.html'
 r=requests.get(url)
 soup = BeautifulSoup(r.content, 'html.parser')
 parser.feed(str(soup).replace('\n',''))
-
+# print(soup)
 sortlist=list()
 def dfs(node):
+    if 'input' in node.childcount:
+        del node.childcount['input']
     childrenvalues=list(node.childcount.values())
     if len(childrenvalues)!=0:
         node.maxval=max(childrenvalues)
@@ -55,7 +59,6 @@ def dfs(node):
 
 dfs(parser.root)
 sortlist = sorted(sortlist, key=lambda x: x.maxval)
-
 sortlist=reversed(sortlist)
 
 column_list=list()
@@ -75,7 +78,7 @@ import numpy as np
 final_table = list()
 
 for node in sortlist:
-    if(node.tagname=='meta'):
+    if(node.tagname=='meta' || node.tagname=='head'):
         continue
     for t in node.childlist:
         getkeyval(t,'')
